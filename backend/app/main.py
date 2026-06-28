@@ -6,7 +6,11 @@ from fastapi import FastAPI
 
 from app.api.v1.router import api_router
 from app.core.config import settings
+from app.core.logging import get_logger, setup_logging
 
+
+setup_logging()
+logger = get_logger(__name__)
 
 def create_app() -> FastAPI:
     """
@@ -15,6 +19,7 @@ def create_app() -> FastAPI:
     Returns:
         Configured FastAPI application.
     """
+    logger.info("Creating FastAPI application...")
 
     app = FastAPI(
         title=settings.app_name,
@@ -26,6 +31,8 @@ def create_app() -> FastAPI:
         api_router,
         prefix=settings.api_prefix,
     )
+    
+    logger.info("Application created successfully.")
 
     return app
 

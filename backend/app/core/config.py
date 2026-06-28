@@ -12,6 +12,14 @@ class AppEnvironment(StrEnum):
     PRODUCTION = "production"
 
 
+class LogLevel(StrEnum):
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
+
+
 class Settings(BaseSettings):
     """
     Application configuration.
@@ -19,12 +27,28 @@ class Settings(BaseSettings):
     All configuration values are loaded from the .env file.
     """
 
+    # ======================================
+    # Application
+    # ======================================
+
     app_name: str = Field(..., alias="APP_NAME")
     app_version: str = Field(..., alias="APP_VERSION")
     app_env: AppEnvironment = Field(..., alias="APP_ENV")
     app_debug: bool = Field(..., alias="APP_DEBUG")
 
+
+    # ======================================
+    # API
+    # ======================================
+
+
     api_prefix: str = Field(..., alias="API_PREFIX")
+
+    # ======================================
+    # Logging
+    # ======================================
+
+    log_level: LogLevel = Field(..., alias="LOG_LEVEL")
 
     model_config = SettingsConfigDict(
         env_file=".env",
