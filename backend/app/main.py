@@ -10,6 +10,7 @@ from fastapi import FastAPI
 
 from app.api.v1.router import api_router
 from app.core.exceptions import register_exception_handlers
+from app.middleware import register_middlewares
 from app.core.config import settings
 from app.core.logging import get_logger, setup_logging
 
@@ -39,13 +40,8 @@ def create_app() -> FastAPI:
         Configured FastAPI application.
     """
     logger.info("Creating FastAPI application...")
-
-    app = FastAPI(
-        title=settings.app_name,
-        version=settings.app_version,
-        debug=settings.app_debug,
-        
-    )
+    
+    
     app = FastAPI(
         title=settings.app_name,
         version=settings.app_version,
@@ -54,6 +50,9 @@ def create_app() -> FastAPI:
         )
     
     register_exception_handlers(app)
+    
+    register_middlewares(app)
+
 
     app.include_router(
         api_router,
