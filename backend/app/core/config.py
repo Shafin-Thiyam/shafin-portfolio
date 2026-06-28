@@ -1,7 +1,7 @@
 from enum import StrEnum
 from functools import lru_cache
 
-from pydantic import Field
+from pydantic import Field, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -41,8 +41,22 @@ class Settings(BaseSettings):
     # API
     # ======================================
 
-
     api_prefix: str = Field(..., alias="API_PREFIX")
+
+
+    # ======================================
+    # Database
+    # ======================================
+
+    postgres_host: str = Field(..., alias="POSTGRES_HOST")
+
+    postgres_port: int = Field(..., alias="POSTGRES_PORT")
+
+    postgres_db: str = Field(..., alias="POSTGRES_DB")
+
+    postgres_user: str = Field(..., alias="POSTGRES_USER")
+
+    postgres_password: str = Field(..., alias="POSTGRES_PASSWORD")
 
     # ======================================
     # Logging
@@ -56,6 +70,22 @@ class Settings(BaseSettings):
         extra="ignore",
         case_sensitive=False,
     )
+    
+    @computed_field
+    @property
+    def database_url(self) -> str:
+        """
+        Build the SQLAlchemy database URL.
+        """
+
+        return (
+            f"postgresql+psycopg://"
+            f"{self.postgres_user}:"
+            f"{self.postgres_password}@"
+            f"{self.postgres_host}:"
+            f"{self.postgres_port}/"
+            f"{self.postgres_db}"
+        )
 
 
 @lru_cache
