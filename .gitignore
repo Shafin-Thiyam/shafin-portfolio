@@ -1,6 +1,35 @@
 backend/app/.env
 frontend/.env.local
 .python-version
+
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+.shafinprofile_env/
+shafinprofile_env/
+env/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Testing
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
 ################################################################################
 # Python
 ################################################################################
