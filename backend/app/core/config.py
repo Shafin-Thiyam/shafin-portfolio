@@ -11,6 +11,7 @@ class AppEnvironment(StrEnum):
     STAGING = "staging"
     PRODUCTION = "production"
 
+
 class Settings(BaseSettings):
     """
     Application configuration.
