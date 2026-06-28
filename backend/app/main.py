@@ -44,7 +44,14 @@ def create_app() -> FastAPI:
         title=settings.app_name,
         version=settings.app_version,
         debug=settings.app_debug,
+        
     )
+    app = FastAPI(
+        title=settings.app_name,
+        version=settings.app_version,
+        debug=settings.app_debug,
+        lifespan=lifespan,
+        )
     
     register_exception_handlers(app)
 
