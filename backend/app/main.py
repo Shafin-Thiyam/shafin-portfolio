@@ -2,6 +2,10 @@
 Application entry point.
 """
 
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
+
 from fastapi import FastAPI
 
 from app.api.v1.router import api_router
@@ -11,6 +15,20 @@ from app.core.logging import get_logger, setup_logging
 
 setup_logging()
 logger = get_logger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    """
+    Manage application startup and shutdown events.
+    """
+
+    logger.info("Application startup.")
+
+    yield
+
+    logger.info("Application shutdown.")
+
 
 def create_app() -> FastAPI:
     """
