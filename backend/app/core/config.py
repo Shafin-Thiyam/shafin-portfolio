@@ -1,8 +1,15 @@
+from enum import StrEnum
 from functools import lru_cache
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
+class AppEnvironment(StrEnum):
+    DEVELOPMENT = "development"
+    TEST = "test"
+    STAGING = "staging"
+    PRODUCTION = "production"
 
 class Settings(BaseSettings):
     """
@@ -13,7 +20,7 @@ class Settings(BaseSettings):
 
     app_name: str = Field(..., alias="APP_NAME")
     app_version: str = Field(..., alias="APP_VERSION")
-    app_env: str = Field(..., alias="APP_ENV")
+    app_env: AppEnvironment = Field(..., alias="APP_ENV")
     app_debug: bool = Field(..., alias="APP_DEBUG")
 
     api_prefix: str = Field(..., alias="API_PREFIX")
