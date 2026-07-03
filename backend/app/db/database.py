@@ -12,6 +12,6 @@ from app.core.config import settings
 
 engine: Engine = create_engine(
     settings.database_url,
-    echo=settings.app_debug,
+    echo=settings.database_echo,
     pool_pre_ping=True,
 )

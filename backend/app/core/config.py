@@ -57,6 +57,11 @@ class Settings(BaseSettings):
     postgres_user: str = Field(..., alias="POSTGRES_USER")
 
     postgres_password: str = Field(..., alias="POSTGRES_PASSWORD")
+    
+    database_echo: bool = Field(
+        False,
+        alias="DATABASE_ECHO",
+    )
 
     # ======================================
     # Logging
