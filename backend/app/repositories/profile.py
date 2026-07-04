@@ -2,6 +2,7 @@
 Profile repository.
 """
 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import Profile
@@ -17,6 +18,7 @@ class ProfileRepository(BaseRepository[Profile]):
         self,
         db: Session,
     ) -> None:
+        
         """
         Initialize repository.
 
@@ -29,3 +31,37 @@ class ProfileRepository(BaseRepository[Profile]):
             db=db,
             model=Profile,
         )
+
+    def get_profile(self) -> Profile | None:
+        """
+        Retrieve the portfolio profile.
+
+        Returns:
+            Profile instance if present, otherwise None.
+        """
+
+        statement = select(Profile).limit(1)
+
+        return self.db.scalar(statement)
+
+    def get_by_email(
+        self,
+        email: str,
+    ) -> Profile | None:
+        """
+        Retrieve a profile by email address.
+
+        Args:
+            email:
+                Email address.
+
+        Returns:
+            Matching profile or None.
+        """
+
+        statement = (
+            select(Profile)
+            .where(Profile.email == email)
+        )
+
+        return self.db.scalar(statement)
