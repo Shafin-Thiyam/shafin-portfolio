@@ -23,7 +23,7 @@ class BaseModel(Base):
 
     id: Mapped[int] = mapped_column(
         primary_key=True,
-        index=True,
+        #index=True,
     )
 
     created_at: Mapped[datetime] = mapped_column(
