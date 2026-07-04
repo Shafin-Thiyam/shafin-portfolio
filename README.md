@@ -42,8 +42,8 @@ Backend and frontend implementation of a personal portfolio application.
 | T2 | Alembic Migration | ✅ Done |
 | T3 | Repository Implementation | ✅ Done |
 | T4 | Service Layer | ✅ Done |
-| T5 | Response Schemas | 🚧 In Progress |
-| T6 | API Endpoints | ⏳ Pending |
+| T5 | Response Schemas | ✅ Done |
+| T6 | API Endpoints | 🚧 In Progress |
 | T7 | Seed Data | ⏳ Pending |
 | T8 | Repository Verification | ⏳ Pending |
 | T9 | API Verification | ⏳ Pending |

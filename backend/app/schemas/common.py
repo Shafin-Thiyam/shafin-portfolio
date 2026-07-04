@@ -25,7 +25,8 @@ class ApiResponse(BaseModel, Generic[T]):
         description="Human-readable response message."
     )
 
-    data: T = Field(
+    data: T | None = Field(
+        default=None,
         description="Response payload."
     )
 

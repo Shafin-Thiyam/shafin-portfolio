@@ -122,3 +122,4 @@ class ProfileService:
         """
 
         self.repository.delete(profile)
+    
