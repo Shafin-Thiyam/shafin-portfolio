@@ -6,6 +6,7 @@ All API endpoints should be registered here.
 
 from fastapi import APIRouter
 from app.api.v1.health import router as health_router
+from app.api.v1.profile import router as profile_router
 
 
 api_router = APIRouter()
@@ -14,4 +15,10 @@ api_router.include_router(
     health_router,
     prefix="/health",
     tags=["Health"],
+)
+
+api_router.include_router(
+    profile_router,
+    prefix="/profile",
+    tags=["Profile"],
 )

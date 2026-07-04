@@ -3,6 +3,10 @@ Profile service.
 """
 
 from app.models import Profile
+from app.schemas import (
+    ProfileCreate,
+    ProfileUpdate,
+)
 from sqlalchemy.orm import Session
 
 from app.repositories import ProfileRepository
@@ -26,8 +30,7 @@ class ProfileService:
         """
 
         self.repository = ProfileRepository(db)
-        
-    
+         
     def get_profile(self) -> Profile | None:
         """
         Retrieve the portfolio profile.
@@ -74,7 +77,7 @@ class ProfileService:
     
     def create_profile(
         self,
-        profile: Profile,
+        profile: ProfileCreate,
     ) -> Profile:
         
         """
@@ -82,17 +85,31 @@ class ProfileService:
 
         Args:
             profile:
-                Profile instance.
+                Profile creation data.
 
         Returns:
             Persisted profile.
         """
+        
+        new_profile = Profile(
+            full_name=profile.full_name,
+            title=profile.title,
+            email=profile.email,
+            phone=profile.phone,
+            location=profile.location,
+            linkedin_url=profile.linkedin_url,
+            github_url=profile.github_url,
+            portfolio_url=profile.portfolio_url,
+            summary=profile.summary,
+            profile_image=profile.profile_image,
+            resume_url=profile.resume_url,
+        )
 
-        return self.repository.create(profile)
+        return self.repository.create(new_profile)
     
     def update_profile(
         self,
-        profile: Profile,
+        profile: ProfileUpdate,
     ) -> Profile:
     
         """
@@ -100,26 +117,39 @@ class ProfileService:
 
         Args:
             profile:
-                Updated profile instance.
+                Updated profile data.
 
         Returns:
             Updated profile.
         """
-
-        return self.repository.update(profile)
-    
-    def delete_profile(
-        self,
-        profile: Profile,
-    ) -> None:
+        existing_profile = self.repository.get_profile()
         
+        if existing_profile is None:
+            raise ValueError("Profile not found.")
+        
+        existing_profile.full_name = profile.full_name
+        existing_profile.title = profile.title
+        existing_profile.email = profile.email
+        existing_profile.phone = profile.phone
+        existing_profile.location = profile.location
+        existing_profile.linkedin_url = profile.linkedin_url
+        existing_profile.github_url = profile.github_url
+        existing_profile.portfolio_url = profile.portfolio_url
+        existing_profile.summary = profile.summary
+        existing_profile.profile_image = profile.profile_image
+        existing_profile.resume_url = profile.resume_url
+
+        return self.repository.update(existing_profile)
+    
+    def delete_profile(self) -> None:
         """
         Delete the portfolio profile.
-
-        Args:
-            profile:
-                Profile to remove.
         """
 
-        self.repository.delete(profile)
+        existing_profile = self.repository.get_profile()
+
+        if existing_profile is None:
+            raise ValueError("Profile not found.")
+
+        self.repository.delete(existing_profile)
     

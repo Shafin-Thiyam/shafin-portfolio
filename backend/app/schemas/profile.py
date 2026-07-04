@@ -45,7 +45,6 @@ class ProfileResponse(BaseModel):
         from_attributes=True,
     )
     
-    
 class ProfileCreate(BaseModel):
     """
     Profile creation schema.
