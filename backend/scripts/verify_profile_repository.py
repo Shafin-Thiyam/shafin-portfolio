@@ -11,6 +11,8 @@ def main() -> None:
     """
     Verify ProfileRepository.
     """
+    UNKNOWN_ID = 999999
+    UNKNOWN_EMAIL = "missing@example.com"
 
     print("=" * 60)
     print("Profile Repository Verification")
@@ -54,8 +56,8 @@ def main() -> None:
 
         repository.create(profile)
 
-        print("✓ Profile created")
-        print(f"  ID: {profile.id}")
+        print(f"✓ Profile created (id={profile.id})")
+        print(f"✓ Email: {profile.email}")
 
         # ---------------------------------------------------------
         # Verify get_profile()
@@ -79,6 +81,27 @@ def main() -> None:
 
         print("✓ get_by_id()")
 
+        # ---------------------------------------------------------
+        # Edge Case - get_by_id() unknown id
+        # ---------------------------------------------------------
+
+        missing_profile = repository.get_by_id(UNKNOWN_ID)
+
+        assert missing_profile is None
+
+        print("✓ get_by_id() returns None for unknown id")
+
+        # ---------------------------------------------------------
+        # Edge Case - exists() unknown id
+        # ---------------------------------------------------------
+
+        exists = repository.exists(UNKNOWN_ID)
+
+        assert exists is False
+
+        print("✓ exists() returns False for unknown id")
+        
+        
 
         # ---------------------------------------------------------
         # Verify get_by_email()
@@ -92,6 +115,18 @@ def main() -> None:
         assert profile_by_email.email == "shafin@example.com"
 
         print("✓ get_by_email()")
+        
+        # ---------------------------------------------------------
+        # Verify get_by_email() - unknown email
+        # ---------------------------------------------------------
+
+        missing_profile = repository.get_by_email(
+            UNKNOWN_EMAIL
+        )
+
+        assert missing_profile is None
+
+        print("✓ get_by_email() returns None for unknown email")
         
         # ---------------------------------------------------------
         # Verify get_all()
@@ -136,6 +171,7 @@ def main() -> None:
         assert updated_profile.location == "Bengaluru, India"
 
         print("✓ update()")
+        print(f"✓ Updated title: {updated_profile.title}")
         
         # ---------------------------------------------------------
         # Verify updated values
@@ -197,6 +233,8 @@ def main() -> None:
 
         print("✓ get_all() after delete")
         
+        
+        
     except AssertionError as exc:
         print()
         print("❌ Verification failed")
@@ -217,10 +255,13 @@ def main() -> None:
     print("Profile Repository Verification Summary")
     print("=" * 60)
 
+        
+    print()
+
+    print("CRUD Operations")
+    print("------------------------------")
     print("✓ create()")
-    print("✓ get_profile()")
     print("✓ get_by_id()")
-    print("✓ get_by_email()")
     print("✓ get_all()")
     print("✓ count()")
     print("✓ exists()")
@@ -228,7 +269,28 @@ def main() -> None:
     print("✓ delete()")
 
     print()
+
+    print("Custom Queries")
+    print("------------------------------")
+    print("✓ get_profile()")
+    print("✓ get_by_email()")
+
+    print()
+
+    print("Edge Cases")
+    print("------------------------------")
+    print("✓ get_by_id() returns None for unknown ID")
+    print("✓ get_by_email() returns None for unknown email")
+    print("✓ exists() returns False for unknown ID")
+    print("✓ Empty repository verified after delete")
+
+    print()
+
+    print("Overall Result")
+    
+    print("------------------------------")
     print("🎉 All repository verification tests passed successfully.")
+
     print("=" * 60)
 
 if __name__ == "__main__":
