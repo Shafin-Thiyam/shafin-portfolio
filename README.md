@@ -47,11 +47,26 @@ Backend and frontend implementation of a personal portfolio application.
 | T7 | Seed Data | ✅ Done |
 | T8 | Repository Verification | ✅ Done |
 | T9 | API Verification | ✅ Done |
-| T10 | Feature Complete | 🚧 In Progress |
+| T10 | Feature Complete | ✅ Done |
 
 ---
 
 ### F4.2 Skill
+
+| Task | Description | Status |
+|------|-------------|--------|
+| T1 | Data Model | ✅ Done |
+| T2 | Alembic Migration | 🚧 In Progress |
+| T3 | Repository Implementation | ⏳ Pending |
+| T4 | Service Layer | ⏳ Pending |
+| T5 | Response Schemas | ⏳ Pending |
+| T6 | API Endpoints | ⏳ Pending |
+| T7 | Seed Data | ⏳ Pending |
+| T8 | Repository Verification | ⏳ Pending |
+| T9 | API Verification | ⏳ Pending |
+| T10 | Feature Complete | ⏳ Pending |
+
+---
 
 **Status:** ⏳ Not Started
 

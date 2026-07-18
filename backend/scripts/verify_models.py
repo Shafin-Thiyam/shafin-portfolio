@@ -5,8 +5,8 @@ Verifies SQLAlchemy model registration before creating migrations.
 """
 
 from app.db import Base
-from app.models.profile import Profile
-
+#from app.models.profile import Profile, Skill
+from app.models import Profile, Skill
 
 def print_header() -> None:
     """Print script header."""
@@ -24,7 +24,7 @@ def print_footer() -> None:
     print("=" * 60 + "\n")
 
 
-def verify_profile_model() -> None:
+def verify_profile_registration() -> None:
     """
     Verify Profile model registration.
     """
@@ -35,6 +35,15 @@ def verify_profile_model() -> None:
 
     print(f"✓ Table: {Profile.__tablename__}")
 
+def verify_skill_registration() -> None:
+    """
+    Verify Skill model registration.
+    """
+
+    print("\n[2] Skill Model")
+
+    print(f"✓ Model: {Skill.__name__}")
+    print(f"✓ Table: {Skill.__tablename__}")
 
 def verify_metadata() -> None:
     """
@@ -44,11 +53,17 @@ def verify_metadata() -> None:
     print("\n[2] SQLAlchemy Metadata")
 
     tables = Base.metadata.tables
-
-    if "profiles" not in tables:
-        raise RuntimeError("profiles table not registered")
-
-    print("✓ profiles table registered")
+    
+    expected_tables = (
+        "profiles",
+        "skills",
+    )
+    
+    for table in expected_tables:
+        if table not in tables:
+            raise RuntimeError(f"{table} table not registered")
+        
+        print(f"✓ {table} table registered")
 
 
 def verify_columns() -> None:
@@ -83,7 +98,63 @@ def verify_columns() -> None:
 
         print(f"✓ {column}")
 
+def verify_profile_columns() -> None:
+    """
+    Verify expected columns.
+    """
 
+    print("\n[3] Columns")
+
+    table = Base.metadata.tables["profiles"]
+
+    expected_columns = (
+        "id",
+        "full_name",
+        "title",
+        "email",
+        "phone",
+        "location",
+        "linkedin_url",
+        "github_url",
+        "portfolio_url",
+        "summary",
+        "profile_image",
+        "resume_url",
+        "created_at",
+        "updated_at",
+    )
+
+    for column in expected_columns:
+        if column not in table.columns:
+            raise RuntimeError(f"Missing column: {column}")
+
+        print(f"✓ {column}")
+
+def verify_skill_columns() -> None:
+    """
+    Verify Skill model columns.
+    """
+
+    print("\n[5] Skill Columns")
+
+    table = Base.metadata.tables["skills"]
+
+    expected_columns = (
+        "id",
+        "name",
+        "category",
+        "proficiency",
+        "display_order",
+        "created_at",
+        "updated_at",
+    )
+
+    for column in expected_columns:
+        if column not in table.columns:
+            raise RuntimeError(f"Missing column: {column}")
+
+        print(f"✓ {column}")
+        
 def main() -> None:
     """
     Execute model verification.
@@ -91,11 +162,13 @@ def main() -> None:
 
     print_header()
 
-    verify_profile_model()
+    verify_profile_registration()
+    verify_skill_registration()
 
     verify_metadata()
 
-    verify_columns()
+    verify_profile_columns()
+    verify_skill_columns()
 
     print_footer()
 
