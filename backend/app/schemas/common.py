@@ -28,8 +28,8 @@ class ApiResponse(BaseModel, Generic[T]):
     """
     
     success: bool = Field(
-    description="Indicates whether the request was successful."
-)
+        description="Indicates whether the request was successful."
+    )
 
     message: str = Field(
         description="Human-readable response message."

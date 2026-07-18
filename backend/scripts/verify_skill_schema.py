@@ -3,7 +3,7 @@ Verify Skill schemas.
 """
 
 import sys
-from datetime import datetime
+from datetime import datetime, UTC
 
 from pydantic import ValidationError
 
@@ -67,14 +67,29 @@ def main() -> None:
             category="Backend",
             proficiency=95,
             display_order=1,
+            created_at=datetime.now(UTC),
+            updated_at=datetime.now(UTC),
         )
 
         response = SkillResponse.model_validate(model)
-
+        
         assert response.id == 1
         assert response.name == "Python"
-
+        assert response.category == "Backend"
+        assert response.proficiency == 95
+        assert response.display_order == 1
+        assert response.created_at is not None
+        assert response.updated_at is not None
+        
         print("✓ SkillResponse from ORM")
+
+        payload = response.model_dump()
+
+        assert payload["name"] == "Python"
+        assert payload["category"] == "Backend"
+
+        print("✓ Serialization")
+
 
         # ---------------------------------------------------------
         # ApiResponse
@@ -87,16 +102,36 @@ def main() -> None:
         )
 
         assert api_response.success is True
+        assert api_response.message == "Skills retrieved successfully."
         assert len(api_response.data) == 1
 
         print("✓ SkillListResponse")
 
         # ---------------------------------------------------------
-        # Validation
+        # Boundary validation
+        # ---------------------------------------------------------
+
+        SkillCreate(
+            name="Docker",
+            category="DevOps",
+            proficiency=0,
+            display_order=0,
+        )
+
+        SkillCreate(
+            name="Kubernetes",
+            category="DevOps",
+            proficiency=100,
+            display_order=999,
+        )
+
+        print("✓ Boundary validation")
+
+        # ---------------------------------------------------------
+        # Invalid value validation
         # ---------------------------------------------------------
 
         try:
-
             SkillCreate(
                 name="",
                 category="Backend",
@@ -104,14 +139,30 @@ def main() -> None:
                 display_order=-1,
             )
 
-            raise AssertionError(
-                "Validation should fail."
-            )
+            raise AssertionError("Expected ValidationError")
 
         except ValidationError:
-
             print("✓ Validation")
 
+        # ---------------------------------------------------------
+        # Extra field validation
+        # ---------------------------------------------------------
+
+        try:
+            SkillCreate(
+                name="Python",
+                category="Backend",
+                proficiency=95,
+                display_order=1,
+                invalid="test",
+            )
+
+            raise AssertionError("Expected ValidationError")
+
+        except ValidationError:
+            print("✓ Extra field validation")
+        
+        
     except AssertionError as exc:
 
         print()
