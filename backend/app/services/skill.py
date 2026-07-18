@@ -6,10 +6,10 @@ from sqlalchemy.orm import Session
 
 from app.models import Skill
 from app.repositories import SkillRepository
-from app.schemas import (
-    SkillCreate,
-    SkillUpdate,
-)
+#from app.schemas import (
+#    SkillCreate,
+#    SkillUpdate,
+#)
 
 
 class SkillService:
@@ -66,28 +66,24 @@ class SkillService:
 
     def create_skill(
         self,
-        skill: SkillCreate,
+        skill: Skill,
     ) -> Skill:
-        """
+        """ 
         Create a new skill.
         """
 
-        if self.repository.get_by_name(skill.name):
+        duplicate = self.repository.get_by_name(skill.name)
+
+        if duplicate is not None:
             raise ValueError("Skill already exists.")
+        
 
-        new_skill = Skill(
-            name=skill.name,
-            category=skill.category,
-            proficiency=skill.proficiency,
-            display_order=skill.display_order,
-        )
-
-        return self.repository.create(new_skill)
+        return self.repository.create(skill)
 
     def update_skill(
         self,
         skill_id: int,
-        skill: SkillUpdate,
+        updated_skill: Skill,
     ) -> Skill:
         """
         Update an existing skill.
@@ -98,17 +94,17 @@ class SkillService:
         if existing_skill is None:
             raise ValueError("Skill not found.")
 
-        if existing_skill.name != skill.name:
+        if existing_skill.name != updated_skill.name:
 
-            duplicate = self.repository.get_by_name(skill.name)
+            duplicate = self.repository.get_by_name(updated_skill.name)
 
-            if duplicate:
+            if duplicate is not None:
                 raise ValueError("Skill already exists.")
 
-        existing_skill.name = skill.name
-        existing_skill.category = skill.category
-        existing_skill.proficiency = skill.proficiency
-        existing_skill.display_order = skill.display_order
+        existing_skill.name = updated_skill.name
+        existing_skill.category = updated_skill.category
+        existing_skill.proficiency = updated_skill.proficiency
+        existing_skill.display_order = updated_skill.display_order
 
         return self.repository.update(existing_skill)
 
