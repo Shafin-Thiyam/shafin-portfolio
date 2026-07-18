@@ -23,7 +23,7 @@ from app.schemas.skill import (
 
 __all__ = (
     "ApiResponse",
-    "BaseSchema"
+    "BaseSchema",
     "HealthResponse",
     "ProfileCreate",
     "ProfileResponse",

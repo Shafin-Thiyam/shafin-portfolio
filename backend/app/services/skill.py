@@ -6,10 +6,10 @@ from sqlalchemy.orm import Session
 
 from app.models import Skill
 from app.repositories import SkillRepository
-#from app.schemas import (
-#    SkillCreate,
-#    SkillUpdate,
-#)
+from app.schemas import (
+    SkillCreate,
+    SkillUpdate,
+)
 
 
 class SkillService:
@@ -66,24 +66,24 @@ class SkillService:
 
     def create_skill(
         self,
-        skill: Skill,
+        skill_data: SkillCreate,
     ) -> Skill:
         """ 
         Create a new skill.
         """
 
-        duplicate = self.repository.get_by_name(skill.name)
+        duplicate = self.repository.get_by_name(skill_data.name)
 
         if duplicate is not None:
             raise ValueError("Skill already exists.")
         
 
-        return self.repository.create(skill)
+        return self.repository.create(skill_data)
 
     def update_skill(
         self,
         skill_id: int,
-        updated_skill: Skill,
+        updated_skill: SkillUpdate,
     ) -> Skill:
         """
         Update an existing skill.
@@ -93,18 +93,14 @@ class SkillService:
 
         if existing_skill is None:
             raise ValueError("Skill not found.")
-
-        if existing_skill.name != updated_skill.name:
-
-            duplicate = self.repository.get_by_name(updated_skill.name)
-
-            if duplicate is not None:
-                raise ValueError("Skill already exists.")
-
-        existing_skill.name = updated_skill.name
-        existing_skill.category = updated_skill.category
-        existing_skill.proficiency = updated_skill.proficiency
-        existing_skill.display_order = updated_skill.display_order
+        
+        duplicate = self.repository.get_by_name(updated_skill.name)
+        
+        if duplicate and duplicate.id != existing_skill.id:
+            raise ValueError("Skill already exists.")
+        
+        for field, value in updated_skill.model_dump().items():
+            setattr(existing_skill, field, value)
 
         return self.repository.update(existing_skill)
 
