@@ -4,11 +4,21 @@ Common API schemas.
 
 from typing import Generic, TypeVar
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 T = TypeVar("T", bound=BaseModel)
 
+class BaseSchema(BaseModel):
+    """
+    Base schema for all request/response models.
+    """
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        extra="forbid",
+        str_strip_whitespace=True,
+    )
 
 
 
