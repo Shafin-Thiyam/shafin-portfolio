@@ -55,10 +55,6 @@ Backend and frontend implementation of a personal portfolio application.
 
 ---
 
-**Status:** ⏳ Not Started
-
----
-
 ### F4.3 Experience
 
 **Status:** ⏳ Not Started
