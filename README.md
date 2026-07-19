@@ -34,20 +34,7 @@ Backend and frontend implementation of a personal portfolio application.
 
 ## F4 – Portfolio Domain API
 
-### F4.1 Profile
-
-| Task | Description | Status |
-|------|-------------|--------|
-| T1 | Data Model | ✅ Done |
-| T2 | Alembic Migration | ✅ Done |
-| T3 | Repository Implementation | ✅ Done |
-| T4 | Service Layer | ✅ Done |
-| T5 | Response Schemas | ✅ Done |
-| T6 | API Endpoints | ✅ Done |
-| T7 | Seed Data | ✅ Done |
-| T8 | Repository Verification | ✅ Done |
-| T9 | API Verification | ✅ Done |
-| T10 | Feature Complete | ✅ Done |
+### F4.1 Profile ✅ Done
 
 ---
 
