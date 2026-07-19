@@ -7,7 +7,10 @@ import sys
 from app.db.session import SessionLocal
 from app.models import Skill
 from app.services import SkillService
-
+from app.schemas import (
+    SkillCreate,
+    SkillUpdate,
+)
 
 def main() -> None:
     """
@@ -37,15 +40,15 @@ def main() -> None:
         # Create Skill
         # ---------------------------------------------------------
 
-        skill = Skill(
-            name="Python",
-            category="Backend",
-            proficiency=95,
-            display_order=1,
+        skill = SkillCreate(
+                name="Python",
+                category="Backend",
+                proficiency=95,
+                display_order=1,
         )
 
         created_skill = service.create_skill(skill)
-
+        
         assert created_skill.id is not None
         assert created_skill.name == "Python"
         assert created_skill.category == "Backend"
@@ -108,7 +111,7 @@ def main() -> None:
         # Verify duplicate skill creation
         # ---------------------------------------------------------
 
-        duplicate_skill = Skill(
+        duplicate_skill = SkillCreate(
             name=created_skill.name,
             category="Backend",
             proficiency=90,
@@ -129,7 +132,7 @@ def main() -> None:
         # Verify update_skill()
         # ---------------------------------------------------------
 
-        updated_skill = Skill(
+        updated_skill = SkillUpdate(
             name="FastAPI",
             category="Backend",
             proficiency=98,
@@ -225,7 +228,7 @@ def main() -> None:
         # Verify update non-existent skill
         # ---------------------------------------------------------
 
-        missing_skill = Skill(
+        missing_skill = SkillUpdate(
             name="Docker",
             category="DevOps",
             proficiency=85,
@@ -259,7 +262,7 @@ def main() -> None:
         # ---------------------------------------------------------
 
         python_skill = service.create_skill(
-            Skill(
+            SkillCreate(
                 name="Python",
                 category="Backend",
                 proficiency=95,
@@ -268,7 +271,7 @@ def main() -> None:
         )
 
         docker_skill = service.create_skill(
-            Skill(
+            SkillCreate(
                 name="Docker",
                 category="DevOps",
                 proficiency=90,
@@ -276,7 +279,7 @@ def main() -> None:
             )
         )
 
-        duplicate_update = Skill(
+        duplicate_update = SkillUpdate(
             name="Python",
             category="DevOps",
             proficiency=90,

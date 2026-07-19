@@ -4,6 +4,7 @@ Skill repository.
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+from app.schemas import SkillCreate
 
 from app.models import Skill
 
@@ -21,11 +22,19 @@ class SkillRepository(BaseRepository[Skill]):
         """
         super().__init__(db, Skill)
 
-    def create(self, skill: Skill) -> Skill:
+    
+    def create(
+        self,
+        skill_data: SkillCreate,
+    ) -> Skill:
+        
         """
         Create a new skill.
         """
+
+        skill = Skill(**skill_data.model_dump())
         return super().create(skill)
+    
 
     def update(self, skill: Skill) -> Skill:
         """
