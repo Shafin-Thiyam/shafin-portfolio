@@ -74,7 +74,7 @@ Backend and frontend implementation of a personal portfolio application.
 ✔ F2 Backend Platform
 ✔ F3 Database Foundation
 ⏳ F4 Portfolio Domain API
-    ├── ✔ Profile (T1-T3)
+    ├── ✔ Profile (T1-T10)
     ├── ⏳ Skill
     ├── ⏳ Experience
     └── ⏳ Project
