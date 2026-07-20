@@ -20,6 +20,12 @@ from app.schemas.skill import (
     SkillUpdate,
 )
 
+from app.schemas.education import (
+    EducationCreate,
+    EducationResponse,
+    EducationUpdate,
+    EducationListResponse,
+)
 
 __all__ = (
     "ApiResponse",
@@ -32,4 +38,8 @@ __all__ = (
     "SkillUpdate",
     "SkillResponse",
     "SkillListResponse",
+    "EducationCreate",
+    "EducationResponse",
+    "EducationUpdate",
+    "EducationListResponse",    
 )
