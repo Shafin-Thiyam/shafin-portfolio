@@ -44,10 +44,10 @@ Backend and frontend implementation of a personal portfolio application.
 |------|-------------|--------|
 | T1 | Data Model | ✅ Done |
 | T2 | Alembic Migration | ✅ Done |
-| T3 | Repository Implementation | 🚧 In Progress |
-| T4 | Service Layer | ⏳ Not Started |
-| T5 | Response Schemas | ⏳ Not Started |
-| T6 | API Endpoints | ⏳ Not Started |
+| T3 | Repository Implementation | ✅ Done |
+| T4 | Service Layer | ✅ Done |
+| T5 | Response Schemas | ✅ Done |
+| T6 | API Endpoints | 🚧 In Progress |
 | T7 | Seed Data | ⏳ Not Started |
 | T8 | Repository Verification | ⏳ Not Started |
 | T9 | API Verification | ⏳ Not Started |
