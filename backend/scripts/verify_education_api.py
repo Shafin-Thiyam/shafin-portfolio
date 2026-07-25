@@ -67,7 +67,7 @@ def main() -> None:
         assert body["success"] is True
         assert "data" in body
 
-        print("✓ GET /education")
+        print("✓ GET /educations")
 
         # ---------------------------------------------------------
         # POST /education
@@ -95,10 +95,10 @@ def main() -> None:
 
         education_id = created["id"]
 
-        print("✓ POST /education")
+        print("✓ POST /educations")
 
         # ---------------------------------------------------------
-        # GET /education/{id}
+        # GET /educations/{id}
         # ---------------------------------------------------------
 
         response = requests.get(
@@ -112,10 +112,10 @@ def main() -> None:
             == education_id
         )
 
-        print("✓ GET /education/{id}")
+        print("✓ GET /educations/{id}")
 
         # ---------------------------------------------------------
-        # PUT /education/{id}
+        # PUT /educations/{id}
         # ---------------------------------------------------------
 
         update = {
@@ -141,10 +141,10 @@ def main() -> None:
             == "Updated API University"
         )
 
-        print("✓ PUT /education/{id}")
+        print("✓ PUT /educations/{id}")
 
         # ---------------------------------------------------------
-        # DELETE /education/{id}
+        # DELETE /educations/{id}
         # ---------------------------------------------------------
 
         response = requests.delete(
@@ -159,7 +159,7 @@ def main() -> None:
 
         assert response.status_code == 404
 
-        print("✓ DELETE /education/{id}")
+        print("✓ DELETE /educations/{id}")
 
         # ---------------------------------------------------------
         # Degree Filter
