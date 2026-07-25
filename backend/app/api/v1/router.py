@@ -8,7 +8,7 @@ from fastapi import APIRouter
 from app.api.v1.health import router as health_router
 from app.api.v1.profile import router as profile_router
 from app.api.v1.skills import router as skills_router
-
+from app.api.v1.educations import router as educations_router
 
 api_router = APIRouter()
 
@@ -28,4 +28,10 @@ api_router.include_router(
     skills_router,
     prefix="/skills",
     tags=["Skills"],
+)
+
+api_router.include_router(
+    educations_router,
+    prefix="/educations",
+    tags=["Education"],
 )
