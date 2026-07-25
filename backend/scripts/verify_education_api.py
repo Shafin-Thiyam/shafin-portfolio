@@ -140,6 +140,7 @@ def main() -> None:
             response.json()["data"]["institution"]
             == "Updated API University"
         )
+        
 
         print("✓ PUT /educations/{id}")
 
