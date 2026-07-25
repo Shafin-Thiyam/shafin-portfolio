@@ -5,7 +5,7 @@ Verify Education API endpoints.
 import sys
 import requests
 
-BASE_URL = "http://127.0.0.1:8000/api/v1/education"
+BASE_URL = "http://127.0.0.1:8000/api/v1/educations"
 DOCS_URL = "http://127.0.0.1:8000/openapi.json"
 
 
@@ -49,8 +49,8 @@ def main() -> None:
 
         paths = openapi["paths"]
 
-        assert "/api/v1/education" in paths
-        assert "/api/v1/education/{education_id}" in paths
+        assert "/api/v1/educations" in paths
+        assert "/api/v1/educations/{education_id}" in paths
 
         print("✓ OpenAPI verified")
 
@@ -200,7 +200,7 @@ def main() -> None:
         # OpenAPI Schema
         # ---------------------------------------------------------
 
-        get_operation = openapi["paths"]["/api/v1/education"]["get"]
+        get_operation = openapi["paths"]["/api/v1/educations"]["get"]
 
         response_schema = (
             get_operation["responses"]["200"]["content"]
