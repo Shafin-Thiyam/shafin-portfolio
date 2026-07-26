@@ -17,9 +17,9 @@ EDUCATIONS = [
         field_of_study="Computer",
         start_date=date(2005, 6, 1),
         end_date=date(2008, 5, 31),
-        grade="tofill %",
+        grade="58 %",
         description="The Master of Computer Applications (MCA) degree from the University of Mumbai in 2005 was a 3-year postgraduate program focused on software development and computer systems.",
-        display_order= 1
+        display_order=1
     ),
     EducationCreate(
         institution="Mumbai University",
@@ -27,7 +27,7 @@ EDUCATIONS = [
         field_of_study="Computer",
         start_date=date(2002, 6, 1),
         end_date=date(2005, 5, 31),
-        grade="to fill %",
+        grade="65 %",
         description="The University of Mumbai introduced the Bachelor of Science in Information Technology (B.Sc. IT) degree in 2002 to build strong student skills in programming, databases, and core computer applications.",
         display_order=2
     ),
