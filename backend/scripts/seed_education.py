@@ -18,7 +18,11 @@ EDUCATIONS = [
         start_date=date(2005, 6, 1),
         end_date=date(2008, 5, 31),
         grade="58 %",
-        description="The Master of Computer Applications (MCA) degree from the University of Mumbai in 2005 was a 3-year postgraduate program focused on software development and computer systems.",
+        description=(
+            "The Master of Computer Applications (MCA) degree "
+            "from the University of Mumbai in 2005 was a 3-year postgraduate program focused on software "
+            "development and computer systems."
+            ),
         display_order=1
     ),
     EducationCreate(
@@ -28,7 +32,10 @@ EDUCATIONS = [
         start_date=date(2002, 6, 1),
         end_date=date(2005, 5, 31),
         grade="65 %",
-        description="The University of Mumbai introduced the Bachelor of Science in Information Technology (B.Sc. IT) degree in 2002 to build strong student skills in programming, databases, and core computer applications.",
+        description=(
+            "The University of Mumbai introduced the Bachelor of Science in Information Technology (B.Sc. IT) degree "
+            "in 2002 to build strong student skills in programming, databases, and core computer applications."
+            ),
         display_order=2
     ),
 ]
@@ -84,6 +91,7 @@ def main() -> None:
     finally:
         db.close()
 
+    print()
     print("=" * 60)
     print("Education seeding completed.")
     print("=" * 60)
