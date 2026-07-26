@@ -197,6 +197,107 @@ def main() -> None:
 
         print("✓ Field of study filter")
 
+
+        # ---------------------------------------------------------
+        # GET Missing Education
+        # ---------------------------------------------------------
+
+        response = requests.get(
+            f"{BASE_URL}/999999"
+        )
+
+        assert response.status_code == 404
+
+        print("✓ GET missing education")
+
+        # ---------------------------------------------------------
+        # Update Missing Education
+        # ---------------------------------------------------------
+
+        response = requests.put(
+            f"{BASE_URL}/999999",
+            json=update,
+        )
+
+        assert response.status_code == 404
+
+        print("✓ Update missing education")
+
+        # ---------------------------------------------------------
+        # Delete Missing Education
+        # ---------------------------------------------------------
+
+        response = requests.delete(
+            f"{BASE_URL}/999999"
+        )
+
+        assert response.status_code == 404
+
+        print("✓ Delete missing education")
+
+        # ---------------------------------------------------------
+        # Duplicate Education
+        # ---------------------------------------------------------
+
+        duplicate_payload = {
+            "institution": "Duplicate Test University",
+            "degree": "Bachelor of Engineering",
+            "field_of_study": "Computer Science",
+            "start_date": "2015-08-01",
+            "end_date": "2019-05-31",
+            "grade": "8.8 CGPA",
+            "description": "Duplicate verification.",
+            "display_order": 1000,
+        }
+
+        response = requests.post(
+            BASE_URL,
+            json=duplicate_payload,
+        )
+
+        assert response.status_code == 201
+
+        duplicate_id = response.json()["data"]["id"]
+
+        response = requests.post(
+            BASE_URL,
+            json=duplicate_payload,
+        )
+
+        assert response.status_code == 409
+
+        print("✓ Duplicate validation")
+
+        # Cleanup duplicate record
+
+        response = requests.delete(
+            f"{BASE_URL}/{duplicate_id}"
+        )
+
+        assert response.status_code == 200
+
+        # ---------------------------------------------------------
+        # Invalid Payload
+        # ---------------------------------------------------------
+
+        invalid_payload = {
+            "institution": "",
+            "degree": "",
+            "field_of_study": "",
+            "start_date": "2015-08-01",
+            "display_order": -1,
+        }
+
+        response = requests.post(
+            BASE_URL,
+            json=invalid_payload,
+        )
+
+        assert response.status_code == 422
+
+        print("✓ Request validation")
+
+
         # ---------------------------------------------------------
         # OpenAPI Schema
         # ---------------------------------------------------------
@@ -222,6 +323,7 @@ def main() -> None:
         print("✓ Router registration")
         print("✓ CRUD endpoints")
         print("✓ Query filters")
+        print("✓ Error responses")
         print("✓ OpenAPI schema")
 
         print()
