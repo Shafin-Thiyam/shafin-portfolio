@@ -57,12 +57,6 @@ Backend and frontend implementation of a personal portfolio application.
 
 ---
 
-### F4.4 Experience
-
-**Status:** ⏳ Not Started
-
----
-
 ### F4.5 Project
 
 **Status:** ⏳ Not Started
@@ -78,7 +72,7 @@ Backend and frontend implementation of a personal portfolio application.
 ⏳ F4 Portfolio Domain API
     ├── ✔ Profile (T1-T10)
     ├── ✔ Skill (T1-T10)
-    ├── ⏳ Academic/Education
+    ├── ✔ Academic/Education (T1-T10)
     ├── ⏳ Experience
     └── ⏳ Project
 ⏳ F5 Frontend Foundation
