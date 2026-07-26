@@ -49,8 +49,8 @@ Backend and frontend implementation of a personal portfolio application.
 | T5 | Response Schemas | ✅ Done |
 | T6 | API Endpoints | ✅ Done |
 | T7 | Seed Data | ✅ Done |
-| T8 | Repository Verification | 🚧 In Progress |
-| T9 | API Verification | ⏳ Not Started |
+| T8 | Repository Verification | ✅ Done |
+| T9 | API Verification | 🚧 In Progress |
 | T10 | Feature Complete | ⏳ Not Started |
 
 ---

@@ -1,12 +1,40 @@
 """
-Verify EducationRepository structure.
+Verify EducationRepository behaviour.
 """
 
+from datetime import date
 import sys
 
 from app.db.session import SessionLocal
-from app.models import Education
 from app.repositories import EducationRepository
+from app.schemas import EducationCreate
+
+
+TEST_INSTITUTION = "Repository Test University"
+TEST_DEGREE = "Bachelor of Engineering"
+TEST_FIELD = "Computer Science"
+
+
+def cleanup(repository: EducationRepository) -> None:
+    """
+    Remove repository test records.
+    """
+
+    education = repository.get_by_institution_and_degree(
+        TEST_INSTITUTION,
+        TEST_DEGREE,
+    )
+
+    if education is not None:
+        repository.delete(education)
+
+    education = repository.get_by_institution_and_degree(
+        TEST_INSTITUTION,
+        "Master of Technology",
+    )
+
+    if education is not None:
+        repository.delete(education)
 
 
 def main() -> None:
@@ -22,64 +50,150 @@ def main() -> None:
 
     try:
 
-        # ---------------------------------------------------------
-        # Repository Import / Initialization
-        # ---------------------------------------------------------
-
         repository = EducationRepository(db)
+
+        cleanup(repository)
 
         print("✓ Repository created")
 
         # ---------------------------------------------------------
-        # Verify Model Binding
+        # Create
         # ---------------------------------------------------------
 
-        assert repository.model is Education
+        education = repository.create(
+            EducationCreate(
+                institution=TEST_INSTITUTION,
+                degree=TEST_DEGREE,
+                field_of_study=TEST_FIELD,
+                start_date=date(2015, 8, 1),
+                end_date=date(2019, 5, 31),
+                grade="8.9 CGPA",
+                description="Repository verification record.",
+                display_order=999,
+            )
+        )
 
-        print("✓ Model binding verified")
+        assert education.id is not None
 
-        # ---------------------------------------------------------
-        # Verify Database Session
-        # ---------------------------------------------------------
-
-        assert repository.db is db
-
-        print("✓ Database session verified")
-
-        # ---------------------------------------------------------
-        # Verify CRUD Methods
-        # ---------------------------------------------------------
-
-        assert callable(repository.create)
-        assert callable(repository.update)
-        assert callable(repository.delete)
-        assert callable(repository.get_by_id)
-        assert callable(repository.get_all)
-
-        print("✓ CRUD methods verified")
+        print("✓ Create verified")
 
         # ---------------------------------------------------------
-        # Verify Custom Query Methods
+        # Get by ID
         # ---------------------------------------------------------
 
-        assert callable(repository.get_by_institution)
-        assert callable(repository.get_by_degree)
-        assert callable(repository.get_by_institution_and_degree)
-        assert callable(repository.get_by_field_of_study)
+        fetched = repository.get_by_id(education.id)
 
-        print("✓ Custom query methods verified")
+        assert fetched is not None
+        assert fetched.institution == TEST_INSTITUTION
+
+        print("✓ Get by ID verified")
+
+        # ---------------------------------------------------------
+        # Get All
+        # ---------------------------------------------------------
+
+        educations = repository.get_all()
+
+        assert any(
+            e.id == education.id
+            for e in educations
+        )
+
+        print("✓ Get all verified")
+
+        # ---------------------------------------------------------
+        # Update
+        # ---------------------------------------------------------
+
+        education.degree = "Master of Technology"
+
+        repository.update(education)
+
+        updated = repository.get_by_id(education.id)
+
+        assert updated is not None
+        assert updated.degree == "Master of Technology"
+
+        print("✓ Update verified")
+
+        # ---------------------------------------------------------
+        # Institution Query
+        # ---------------------------------------------------------
+
+        by_institution = repository.get_by_institution(
+            TEST_INSTITUTION
+        )
+
+        assert by_institution is not None
+
+        print("✓ Institution query verified")
+
+        # ---------------------------------------------------------
+        # Degree Query
+        # ---------------------------------------------------------
+
+        by_degree = repository.get_by_degree(
+            "Master of Technology"
+        )
+
+        assert any(
+            e.id == education.id
+            for e in by_degree
+        )
+
+        print("✓ Degree query verified")
+
+        # ---------------------------------------------------------
+        # Institution + Degree Query
+        # ---------------------------------------------------------
+
+        by_pair = repository.get_by_institution_and_degree(
+            TEST_INSTITUTION,
+            "Master of Technology",
+        )
+
+        assert by_pair is not None
+        assert by_pair.id == education.id
+
+        print("✓ Institution + degree query verified")
+
+        # ---------------------------------------------------------
+        # Field of Study Query
+        # ---------------------------------------------------------
+
+        by_field = repository.get_by_field_of_study(
+            TEST_FIELD
+        )
+
+        assert any(
+            e.id == education.id
+            for e in by_field
+        )
+
+        print("✓ Field of study query verified")
+
+        # ---------------------------------------------------------
+        # Delete
+        # ---------------------------------------------------------
+
+        repository.delete(education)
+
+        deleted = repository.get_by_id(
+            education.id
+        )
+
+        assert deleted is None
+
+        print("✓ Delete verified")
 
         print()
         print("=" * 60)
         print("Repository Verification Summary")
         print("=" * 60)
 
-        print("✓ Repository import")
-        print("✓ Repository initialization")
-        print("✓ Model binding")
-        print("✓ Database session")
-        print("✓ CRUD methods")
-        print("✓ Custom query methods")
+        print("✓ CRUD operations")
+        print("✓ Custom queries")
+        print("✓ Repository behaviour")
 
         print()
         print("🎉 EducationRepository verified successfully.")
@@ -100,6 +214,7 @@ def main() -> None:
 
     finally:
 
+        cleanup(repository)
         db.close()
 
     print("=" * 60)
