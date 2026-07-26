@@ -126,6 +126,26 @@ class EducationRepository(BaseRepository[Education]):
             self.db.scalars(statement).all()
         )
 
+    def get_by_institution_and_degree(
+        self,
+        institution: str,
+        degree: str,
+    ) -> Education | None:
+        """
+        Retrieve an education by institution and degree.
+        """
+        
+        statement = (
+                    select(Education)
+                    .where(
+                        Education.institution == institution,
+                        Education.degree == degree,
+                    )
+        )
+        
+        return self.db.scalar(statement)
+    
+    
     def get_by_field_of_study(
         self,
         field_of_study: str,

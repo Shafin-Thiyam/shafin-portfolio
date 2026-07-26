@@ -64,6 +64,7 @@ def main() -> None:
 
         assert callable(repository.get_by_institution)
         assert callable(repository.get_by_degree)
+        assert callable(repository.get_by_institution_and_degree)
         assert callable(repository.get_by_field_of_study)
 
         print("✓ Custom query methods verified")

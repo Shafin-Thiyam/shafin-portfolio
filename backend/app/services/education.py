@@ -60,6 +60,20 @@ class EducationService:
 
         return self.repository.get_by_degree(degree)
 
+    def get_education_by_institution_and_degree(
+        self,
+        institution: str,
+        degree: str,
+    ) -> Education | None:
+        """
+        Retrieve education by institution and degree.
+        """
+
+        return self.repository.get_by_institution_and_degree(
+            institution,
+            degree,
+        )
+    
     def get_educations_by_field_of_study(
         self,
         field_of_study: str,
@@ -77,10 +91,12 @@ class EducationService:
         """
         Create a new education record.
         """
-
-        duplicate = self.repository.get_by_institution(
-            education_data.institution
+        
+        duplicate = self.repository.get_by_institution_and_degree(
+            education_data.institution,
+            education_data.degree,
         )
+        
 
         if duplicate is not None:
             raise ValueError("Education already exists.")
@@ -103,8 +119,9 @@ class EducationService:
         if existing_education is None:
             raise ValueError("Education not found.")
 
-        duplicate = self.repository.get_by_institution(
-            updated_education.institution
+        duplicate = self.repository.get_by_institution_and_degree(
+            updated_education.institution,
+            updated_education.degree,
         )
 
         if (
