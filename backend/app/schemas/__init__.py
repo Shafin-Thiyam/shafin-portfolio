@@ -27,19 +27,34 @@ from app.schemas.education import (
     EducationListResponse,
 )
 
+from app.schemas.experience import (
+    ExperienceCreate,
+    ExperienceListResponse,
+    ExperienceResponse,
+    ExperienceUpdate
+)
+
 __all__ = (
     "ApiResponse",
     "BaseSchema",
     "HealthResponse",
+    
     "ProfileCreate",
     "ProfileResponse",
     "ProfileUpdate",
+    
     "SkillCreate",
     "SkillUpdate",
     "SkillResponse",
     "SkillListResponse",
+    
     "EducationCreate",
     "EducationResponse",
     "EducationUpdate",
-    "EducationListResponse",    
+    "EducationListResponse",  
+    
+    "ExperienceCreate",
+    "ExperienceListResponse",
+    "ExperienceResponse",
+    "ExperienceUpdate",
 )
