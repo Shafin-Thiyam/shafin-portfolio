@@ -34,9 +34,9 @@ Backend and frontend implementation of a personal portfolio application.
 
 ## F4 – Portfolio Domain API
 
-### F4.1 Profile ✅ Done
-### F4.2 Skill   ✅ Done
-### F4.3 Education/Academic ✅ Done
+#### F4.1 Profile ✅ Done
+#### F4.2 Skill   ✅ Done
+#### F4.3 Education/Academic ✅ Done
 
 ---
 
