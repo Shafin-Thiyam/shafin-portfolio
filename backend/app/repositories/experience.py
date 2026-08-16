@@ -8,7 +8,12 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Session
 
-from app.models import Experience
+from app.models import (
+    Experience,
+    Skill,
+    experience_skills,
+)
+
 from app.schemas import ExperienceCreate
 
 from .base import BaseRepository
@@ -162,6 +167,98 @@ class ExperienceRepository(BaseRepository[Experience]):
             )
             .order_by(
                 Experience.display_order.asc()
+            )
+        )
+
+        return list(
+            self.db.scalars(statement).all()
+        )
+
+    def get_by_skill_id(
+        self,
+        skill_id: int,
+    ) -> list[Experience]:
+        """
+        Retrieve experiences associated with a skill.
+
+        Results are ordered by display order.
+        """
+
+        statement = (
+            select(Experience)
+            .join(
+                experience_skills,
+                Experience.id
+                == experience_skills.c.experience_id,
+            )
+            .where(
+                experience_skills.c.skill_id
+                == skill_id
+            )
+            .order_by(
+                Experience.display_order.asc()
+            )
+        )
+
+        return list(
+            self.db.scalars(statement).all()
+        )
+
+    def get_by_skill_name(
+        self,
+        skill_name: str,
+    ) -> list[Experience]:
+        """
+        Retrieve experiences associated with a skill name.
+
+        Matching is case-insensitive.
+
+        Results are ordered by display order.
+        """
+
+        statement = (
+            select(Experience)
+            .join(
+                experience_skills,
+                Experience.id
+                == experience_skills.c.experience_id,
+            )
+            .join(
+                Skill,
+                Skill.id
+                == experience_skills.c.skill_id,
+            )
+            .where(
+                func.lower(Skill.name)
+                == skill_name.lower()
+            )
+            .order_by(
+                Experience.display_order.asc()
+            )
+        )
+
+        return list(
+            self.db.scalars(statement).all()
+        )
+
+    def get_skill_ids(
+        self,
+        experience_id: int,
+    ) -> list[int]:
+        """
+        Retrieve skill IDs associated with an experience.
+        """
+
+        statement = (
+            select(
+                experience_skills.c.skill_id
+            )
+            .where(
+                experience_skills.c.experience_id
+                == experience_id
+            )
+            .order_by(
+                experience_skills.c.skill_id.asc()
             )
         )
 
