@@ -285,3 +285,106 @@ class ExperienceRepository(BaseRepository[Experience]):
         """
 
         super().delete(experience)
+        
+    def add_skill(
+        self,
+        experience_id: int,
+        skill_id: int,
+    ) -> None:
+        """
+        Associate a skill with an experience.
+        """
+
+        statement = (
+            select(experience_skills.c.experience_id)
+            .where(
+                experience_skills.c.experience_id
+                == experience_id,
+                experience_skills.c.skill_id
+                == skill_id,
+            )
+        )
+
+        exists = self.db.scalar(statement)
+
+        if exists is not None:
+            return
+
+        self.db.execute(
+            experience_skills.insert().values(
+                experience_id=experience_id,
+                skill_id=skill_id,
+            )
+        )
+
+        self.db.flush()
+    
+    def remove_skill(
+        self,
+        experience_id: int,
+        skill_id: int,
+    ) -> None:
+        """
+        Remove a skill association from an experience.
+        """
+
+        statement = (
+            experience_skills.delete()
+            .where(
+                experience_skills.c.experience_id
+                == experience_id,
+                experience_skills.c.skill_id
+                == skill_id,
+            )
+        )
+
+        self.db.execute(statement)
+        self.db.flush()
+        
+    def set_skills(
+        self,
+        experience_id: int,
+        skill_ids: list[int],
+    ) -> None:
+        """
+        Replace all skill associations for an experience.
+        """
+
+        self.clear_skills(experience_id)
+
+        if not skill_ids:
+            return
+
+        rows = [
+            {
+                "experience_id": experience_id,
+                "skill_id": skill_id,
+            }
+            for skill_id in dict.fromkeys(skill_ids)
+        ]
+
+        self.db.execute(
+            experience_skills.insert(),
+            rows,
+        )
+
+        self.db.flush()
+        
+    def clear_skills(
+        self,
+        experience_id: int,
+    ) -> None:
+        """
+        Remove all skill associations from an experience.
+        """
+
+        statement = (
+            experience_skills.delete()
+            .where(
+                experience_skills.c.experience_id
+                == experience_id
+            )
+        )
+
+        self.db.execute(statement)
+        self.db.flush()
