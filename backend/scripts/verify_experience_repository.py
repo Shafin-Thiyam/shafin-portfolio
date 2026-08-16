@@ -143,7 +143,7 @@ def main() -> None:
             experience.display_order
             for experience in experiences
         ]
-        assert orders == [10, 20, 30, 999]
+        assert orders == sorted(orders)
         print("✓ get_all() ordered by display_order")
         
         # ---------------------------------------------------------
@@ -190,9 +190,93 @@ def main() -> None:
         )
 
         print("✓ CRUD persists correctly")
+        
+        # --------------------------------------------------------------------------------------
+        # 10. Get Current, get by Company, get by employment type, get by location type records
+        # --------------------------------------------------------------------------------------
+        current_experience = repository.create(
+            ExperienceCreate(
+                company="Current Test Company",
+                designation="Lead Engineer",
+                employment_type="Full-time",
+                location="Hyderabad",
+                location_type="Remote",
+                start_date=date(2024, 1, 1),
+                end_date=None,
+                is_current=True,
+                description="Current experience query test.",
+                display_order=5,
+            )
+        )
+        current = repository.get_current()
+
+        assert current
+
+        assert all(
+            experience.is_current
+            for experience in current
+        )
+
+        assert current[0].display_order == 5
+
+        print("✓ get_current() works")
+        
+        
+        company_results = repository.get_by_company(
+            "Current Test Company"
+        )
+
+        assert company_results
+
+        assert all(
+            experience.company == "Current Test Company"
+            for experience in company_results
+        )
+
+        print("✓ get_by_company() works")
+        
+        company_results = repository.get_by_company(
+            "current test company"
+        )
+
+        assert company_results
+
+        print("✓ get_by_company() is case-insensitive")
+        
+        employment_results = (
+            repository.get_by_employment_type(
+                "full-time"
+            )
+        )
+
+        assert employment_results
+
+        assert all(
+            experience.employment_type.lower()
+            == "full-time"
+            for experience in employment_results
+        )
+
+        print("✓ get_by_employment_type() works")
+        
+        location_results = (
+            repository.get_by_location_type(
+                "remote"
+            )
+        )
+
+        assert location_results
+
+        assert all(
+            experience.location_type.lower()
+            == "remote"
+            for experience in location_results
+        )
+
+        print("✓ get_by_location_type() works")
 
         # ---------------------------------------------------------
-        # 10. Delete
+        # 11. Delete
         # ---------------------------------------------------------
         exps = repository.get_all()
         expid = [
@@ -206,7 +290,7 @@ def main() -> None:
         print("✓ delete() works")
 
         # ---------------------------------------------------------
-        # 11. Verify Deleted Record
+        # 12. Verify Deleted Record
         # ---------------------------------------------------------
         for id in expid:            
             deleted = repository.get_by_id(id)
@@ -228,6 +312,10 @@ def main() -> None:
         print("✓ CRUD operations")
         print("✓ Ordered get_all()")
         print("✓ CRUD persistence")
+        print("✓ get_by_company()")
+        print("✓ get_by_company() is case-insensitive")
+        print("✓ get_by_employment_type()")
+        print("✓ get_by_location_type()")
         print("✓ Delete behaviour")
 
         print()

@@ -2,7 +2,10 @@
 Experience repository.
 """
 
-from sqlalchemy import select
+from sqlalchemy import (
+    select,
+    func,
+)
 from sqlalchemy.orm import Session
 
 from app.models import Experience
@@ -70,6 +73,100 @@ class ExperienceRepository(BaseRepository[Experience]):
 
         return super().get_by_id(
             experience_id
+        )
+
+    def get_current(self) -> list[Experience]:
+        """
+        Retrieve current experiences ordered by display order.
+        """
+
+        statement = (
+            select(Experience)
+            .where(
+                Experience.is_current.is_(True)
+            )
+            .order_by(
+                Experience.display_order.asc()
+            )
+        )
+
+        return list(
+            self.db.scalars(statement).all()
+        )
+
+    def get_by_company(
+        self,
+        company: str,
+    ) -> list[Experience]:
+        """
+        Retrieve experiences for a company.
+
+        Matching is case-insensitive.
+        """
+
+        statement = (
+            select(Experience)
+            .where(
+                func.lower(Experience.company)
+                == company.lower()
+            )
+            .order_by(
+                Experience.display_order.asc()
+            )
+        )
+
+        return list(
+            self.db.scalars(statement).all()
+        )
+
+    def get_by_employment_type(
+        self,
+        employment_type: str,
+    ) -> list[Experience]:
+        """
+        Retrieve experiences by employment type.
+
+        Matching is case-insensitive.
+        """
+
+        statement = (
+            select(Experience)
+            .where(
+                func.lower(Experience.employment_type)
+                == employment_type.lower()
+            )
+            .order_by(
+                Experience.display_order.asc()
+            )
+        )
+
+        return list(
+            self.db.scalars(statement).all()
+        )
+
+    def get_by_location_type(
+        self,
+        location_type: str,
+    ) -> list[Experience]:
+        """
+        Retrieve experiences by location type.
+
+        Matching is case-insensitive.
+        """
+
+        statement = (
+            select(Experience)
+            .where(
+                func.lower(Experience.location_type)
+                == location_type.lower()
+            )
+            .order_by(
+                Experience.display_order.asc()
+            )
+        )
+
+        return list(
+            self.db.scalars(statement).all()
         )
 
     def update(
