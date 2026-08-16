@@ -312,6 +312,7 @@ def main() -> None:
         print("✓ CRUD operations")
         print("✓ Ordered get_all()")
         print("✓ CRUD persistence")
+        print("✓ get_current()")
         print("✓ get_by_company()")
         print("✓ get_by_company() is case-insensitive")
         print("✓ get_by_employment_type()")
