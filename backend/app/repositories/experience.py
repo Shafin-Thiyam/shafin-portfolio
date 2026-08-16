@@ -52,7 +52,6 @@ class ExperienceRepository(BaseRepository[Experience]):
         return super().create(experience)
 
     def get_all(self) -> list[Experience]:
-    
         """
         Retrieve all experiences ordered by display order.
         """
