@@ -156,4 +156,21 @@ class ExperienceResponse(BaseSchema):
     updated_at: datetime
 
 
+class ExperienceSkillsUpdate(BaseSchema):
+    """
+    Schema for replacing skills associated with an experience.
+    """
+
+    skill_ids: Annotated[
+        list[Annotated[int, Field(gt=0)]],
+        Field(
+            description=(
+                "Complete list of skill IDs to associate "
+                "with the experience. An empty list clears "
+                "all skill associations."
+            ),
+        ),
+    ]
+
+
 ExperienceListResponse = ApiResponse[list[ExperienceResponse]]

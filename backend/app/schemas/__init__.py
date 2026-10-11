@@ -31,6 +31,7 @@ from app.schemas.experience import (
     ExperienceCreate,
     ExperienceListResponse,
     ExperienceResponse,
+    ExperienceSkillsUpdate,
     ExperienceUpdate
 )
 
@@ -56,5 +57,6 @@ __all__ = (
     "ExperienceCreate",
     "ExperienceListResponse",
     "ExperienceResponse",
+    "ExperienceSkillsUpdate",
     "ExperienceUpdate",
 )

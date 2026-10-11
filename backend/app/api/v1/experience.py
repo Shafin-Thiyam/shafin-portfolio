@@ -17,6 +17,7 @@ from app.schemas import (
     ExperienceCreate,
     ExperienceListResponse,
     ExperienceResponse,
+    ExperienceSkillsUpdate,
     ExperienceUpdate,
 )
 from app.services import ExperienceService
@@ -110,6 +111,90 @@ def get_experience(
         success=True,
         message="Experience retrieved successfully.",
         data=ExperienceResponse.model_validate(experience),
+    )
+
+
+
+@router.get(
+    "/{experience_id}/skills",
+    response_model=ApiResponse[list[int]],
+    status_code=status.HTTP_200_OK,
+    summary="Get skill IDs associated with an experience",
+)
+def get_experience_skills(
+    experience_id: int,
+    db: Session = Depends(get_db),
+) -> ApiResponse[list[int]]:
+    """Retrieve skill IDs associated with an experience."""
+
+    service = ExperienceService(db)
+
+    try:
+        skill_ids = service.get_skill_ids(experience_id)
+    except ValueError as exc:
+        if str(exc) == "Experience not found.":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(exc),
+            ) from exc
+
+        # Do not hide unexpected service errors.
+        raise
+
+    return ApiResponse(
+        success=True,
+        message="Experience skills retrieved successfully.",
+        data=skill_ids,
+    )
+
+
+
+@router.post(
+    "/{experience_id}/skills/{skill_id}",
+    response_model=ApiResponse[None],
+    status_code=status.HTTP_200_OK,
+    summary="Associate a skill with an experience",
+)
+def add_experience_skill(
+    experience_id: int,
+    skill_id: int,
+    db: Session = Depends(get_db),
+) -> ApiResponse[None]:
+    """Associate an existing skill with an experience."""
+
+    service = ExperienceService(db)
+
+    try:
+        service.add_skill(experience_id, skill_id)
+    except ValueError as exc:
+        message = str(exc)
+
+        if message == "Experience not found.":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=message,
+            ) from exc
+
+        if message == "Skill not found.":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=message,
+            ) from exc
+
+        if message == (
+            "Skill is already associated with this experience."
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=message,
+            ) from exc
+
+        raise
+
+    return ApiResponse(
+        success=True,
+        message="Skill associated with experience successfully.",
+        data=None,
     )
 
 
