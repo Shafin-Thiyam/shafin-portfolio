@@ -115,7 +115,19 @@ class ExperienceService:
         return self.repository.get_by_id(
             experience_id
         )
-
+    
+    def get_filtered(
+        self,
+        company: str | None = None,
+        employment_type: str | None = None,
+        location_type: str | None = None,
+    ) -> list[Experience]:
+        return self.repository.get_filtered(
+            company=company,
+            employment_type=employment_type,
+            location_type=location_type,
+        )
+    
     def get_current(self) -> list[Experience]:
         """
         Retrieve current experiences ordered by display order.

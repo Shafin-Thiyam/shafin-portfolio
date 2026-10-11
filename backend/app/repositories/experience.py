@@ -5,7 +5,9 @@ Experience repository.
 from sqlalchemy import (
     select,
     func,
+    and_
 )
+
 from sqlalchemy.orm import Session
 
 from app.models import (
@@ -66,6 +68,46 @@ class ExperienceRepository(BaseRepository[Experience]):
         return list(
             self.db.scalars(statement).all()
         )
+
+    
+    def get_filtered(
+        self,
+        company: str | None = None,
+        employment_type: str | None = None,
+        location_type: str | None = None,
+    ) -> list[Experience]:
+        """
+        Retrieve experiences using all supplied filters.
+
+        Filters are combined using AND logic.
+        Results are ordered by display order.
+        """
+
+        statement = select(Experience)
+
+        if company is not None and company.strip():
+            statement = statement.where(
+                Experience.company.ilike(f"%{company.strip()}%")
+            )
+
+        if employment_type is not None and employment_type.strip():
+            statement = statement.where(
+                func.lower(Experience.employment_type)
+                == employment_type.strip().lower()
+            )
+
+        if location_type is not None and location_type.strip():
+            statement = statement.where(
+                func.lower(Experience.location_type)
+                == location_type.strip().lower()
+            )
+
+        statement = statement.order_by(
+            Experience.display_order.asc()
+        )
+
+        return list(self.db.scalars(statement).all())
+
 
     def get_by_id(
         self,
