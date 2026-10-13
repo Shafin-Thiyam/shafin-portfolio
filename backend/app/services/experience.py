@@ -349,12 +349,17 @@ class ExperienceService:
             raise ValueError(
                 EXPERIENCE_SKILL_ALREADY_EXISTS_MESSAGE
             )
+        
+        try:
+            self.repository.add_skill(
+                experience_id,
+                skill_id,
+            )
+            self.repository.db.commit()
+        except Exception:
+            self.repository.db.rollback()
+            raise
 
-        self.repository.add_skill(
-            experience_id,
-            skill_id,
-        )
-             
     def remove_skill(
         self,
         experience_id: int,
@@ -400,10 +405,15 @@ class ExperienceService:
                 EXPERIENCE_SKILL_NOT_FOUND_MESSAGE
             )
 
-        self.repository.remove_skill(
-            experience_id,
-            skill_id,
-        )
+        try:
+            self.repository.remove_skill(
+                experience_id,
+                skill_id,
+            )
+            self.repository.db.commit()
+        except Exception:
+            self.repository.db.rollback()
+            raise
             
     def set_skills(
         self,
@@ -447,10 +457,16 @@ class ExperienceService:
                     SKILL_NOT_FOUND_MESSAGE
                 )
 
-        self.repository.set_skills(
-            experience_id,
-            unique_skill_ids,
-        )
+        try:
+            self.repository.set_skills(
+                experience_id,
+                unique_skill_ids,
+            )
+            self.repository.db.commit()
+        except Exception:
+            self.repository.db.rollback()
+            raise
+            
         
     def clear_skills(
         self,
@@ -473,6 +489,11 @@ class ExperienceService:
                 EXPERIENCE_NOT_FOUND_MESSAGE
             )
 
-        self.repository.clear_skills(
-            experience_id
-        )
+        try:
+            self.repository.clear_skills(
+                experience_id
+            )
+            self.repository.db.commit()
+        except Exception:
+            self.repository.db.rollback()
+            raise        

@@ -148,7 +148,6 @@ def get_experience_skills(
     )
 
 
-
 @router.post(
     "/{experience_id}/skills/{skill_id}",
     response_model=ApiResponse[None],
@@ -194,6 +193,92 @@ def add_experience_skill(
     return ApiResponse(
         success=True,
         message="Skill associated with experience successfully.",
+        data=None,
+    )
+
+@router.put(
+    "/{experience_id}/skills",
+    response_model=ApiResponse[None],
+    status_code=status.HTTP_200_OK,
+    summary="Replace skills associated with an experience",
+)
+def update_experience_skills(
+    experience_id: int,
+    payload: ExperienceSkillsUpdate,
+    db: Session = Depends(get_db),
+) -> ApiResponse[None]:
+    """Replace all skills associated with an experience."""
+
+    service = ExperienceService(db)
+
+    try:
+        service.set_skills(
+            experience_id=experience_id,
+            skill_ids=payload.skill_ids,
+        )
+    except ValueError as exc:
+        message = str(exc)
+
+        if message in (
+            "Experience not found.",
+            "Skill not found.",
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=message,
+            ) from exc
+
+        raise
+
+    return ApiResponse(
+        success=True,
+        message="Experience skills updated successfully.",
+        data=None,
+    )
+
+@router.delete(
+    "/{experience_id}/skills/{skill_id}",
+    response_model=ApiResponse[None],
+    status_code=status.HTTP_200_OK,
+    summary="Remove a skill association from an experience",
+)
+def remove_experience_skill(
+    experience_id: int,
+    skill_id: int,
+    db: Session = Depends(get_db),
+) -> ApiResponse[None]:
+    """Remove an associated skill from an experience."""
+
+    service = ExperienceService(db)
+
+    try:
+        service.remove_skill(experience_id, skill_id)
+    except ValueError as exc:
+        message = str(exc)
+
+        if message in (
+            "Experience not found.",
+            "Skill not found.",
+            "Skill is not associated with this experience.",
+        ):
+            http_status = (
+                status.HTTP_409_CONFLICT
+                if message == (
+                    "Skill is not associated with this experience."
+                )
+                else status.HTTP_404_NOT_FOUND
+            )
+
+            raise HTTPException(
+                status_code=http_status,
+                detail=message,
+            ) from exc
+
+        raise
+
+    return ApiResponse(
+        success=True,
+        message="Skill removed from experience successfully.",
         data=None,
     )
 
