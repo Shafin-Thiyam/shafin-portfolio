@@ -6,7 +6,7 @@ from datetime import date
 from datetime import datetime
 from typing import Annotated
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from app.schemas.common import (
     ApiResponse,
@@ -18,6 +18,25 @@ class ExperienceCreate(BaseSchema):
     """
     Schema for creating an experience.
     """
+
+    @model_validator(mode="after")
+    def validate_employment_dates(self):
+        """Validate employment date consistency."""
+
+        if (
+            self.end_date is not None
+            and self.start_date > self.end_date
+        ):
+            raise ValueError(
+                "start_date must be on or before end_date."
+            )
+
+        if self.is_current and self.end_date is not None:
+            raise ValueError(
+                "end_date must be null for current employment."
+            )
+
+        return self
 
     company: Annotated[
         str,
@@ -76,9 +95,28 @@ class ExperienceCreate(BaseSchema):
 
 
 class ExperienceUpdate(BaseSchema):
+
     """
     Schema for updating an experience.
     """
+    @model_validator(mode="after")
+    def validate_employment_dates(self):
+        """Validate employment date consistency."""
+
+        if (
+            self.end_date is not None
+            and self.start_date > self.end_date
+        ):
+            raise ValueError(
+                "start_date must be on or before end_date."
+            )
+
+        if self.is_current and self.end_date is not None:
+            raise ValueError(
+                "end_date must be null for current employment."
+            )
+
+        return self
 
     company: Annotated[
         str,

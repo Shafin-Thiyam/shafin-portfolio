@@ -280,7 +280,11 @@ def main() -> None:
             for item in current
         )
 
-        assert current[0].display_order == 5
+        assert any(
+            item.id == current_experience.id
+            and item.display_order == 5
+            for item in current
+        )
 
         print("✓ get_current() works")
 
