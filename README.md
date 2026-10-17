@@ -37,29 +37,23 @@ Backend and frontend implementation of a personal portfolio application.
 #### F4.1 Profile ✅ Done
 #### F4.2 Skill   ✅ Done
 #### F4.3 Education/Academic ✅ Done
-
+### F4.4 Experience ✅ Done
 ---
 
-### F4.4 Experience
+### F4.5 Project 🚧 In Progress
 
 | Task | Description | Status |
 |------|-------------|--------|
-| T1 | Data Model | ✅ Done |
-| T2 | Alembic Migration | ✅ Done |
-| T3 | Repository Implementation | ✅ Done |
-| T4 | Service Layer | ✅ Done |
-| T5 | Response Schemas |🚧 In Progress |
+| T1 | Data Model | 🚧 In Progress |
+| T2 | Alembic Migration | ⏳ Not Started |
+| T3 | Repository Implementation | ⏳ Not Started |
+| T4 | Service Layer | ⏳ Not Started |
+| T5 | Response Schemas |⏳ Not Started |
 | T6 | API Endpoints | ⏳ Not Started |
 | T7 | Seed Data | ⏳ Not Started |
 | T8 | Repository Verification | ⏳ Not Started |
 | T9 | API Verification | ⏳ Not Started |
 | T10 | Feature Complete | ⏳ Not Started |
-
----
-
-### F4.5 Project
-
-**Status:** ⏳ Not Started
 
 ---
 
