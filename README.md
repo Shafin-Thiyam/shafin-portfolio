@@ -96,22 +96,6 @@ Backend and frontend implementation of a personal portfolio application.
 
 ---
 
-## Current Focus
-
-Currently implementing **F4 – Portfolio Domain API**, beginning with the **Profile** module.
-
-Completed work:
-
-- ✅ Profile Data Model
-- ✅ Alembic Migration
-- ✅ Repository Layer
-
-Next milestone:
-
-- 🚧 Service Layer
-
----
-
 ## Repository Structure
 
 ```
