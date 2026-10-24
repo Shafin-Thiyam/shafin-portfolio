@@ -67,7 +67,7 @@ Backend and frontend implementation of a personal portfolio application.
     ├── ✔ Profile (T1-T10)
     ├── ✔ Skill (T1-T10)
     ├── ✔ Academic/Education (T1-T10)
-    ├── ⏳ Experience
+    ├── ✔ Experience (T1-T10)
     └── ⏳ Project
 ⏳ F5 Frontend Foundation
 ⏳ F6 Frontend Integration
