@@ -4,7 +4,6 @@ Project database model.
 
 from datetime import date
 
-from sqlalchemy import Boolean
 from sqlalchemy import Date
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
