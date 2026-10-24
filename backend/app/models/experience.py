@@ -14,6 +14,7 @@ from sqlalchemy import Table
 from sqlalchemy import Text
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import relationship
 from sqlalchemy import Index
 from app.db import Base
 from app.models.base_model import BaseModel
@@ -104,4 +105,12 @@ class Experience(BaseModel):
     display_order: Mapped[int] = mapped_column(
         Integer,
         nullable=False,
+        index=True,
+    )
+
+    projects: Mapped[list["Project"]] = relationship(
+        "Project",
+        back_populates="experience",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
     )

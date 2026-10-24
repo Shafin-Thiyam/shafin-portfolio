@@ -10,6 +10,7 @@ from app.models.experience import (
     Experience,
     experience_skills,
 )
+from app.models.project import Project
 
 __all__ = (
     "BaseModel",
@@ -17,5 +18,6 @@ __all__ = (
     "Skill",
     "Education",    
     "Experience",
+    "Project",
     "experience_skills",
 )
