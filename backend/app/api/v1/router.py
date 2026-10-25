@@ -10,6 +10,10 @@ from app.api.v1.profile import router as profile_router
 from app.api.v1.skills import router as skills_router
 from app.api.v1.educations import router as educations_router
 from app.api.v1.experience import router as experiences_router
+from app.api.v1.projects import (
+    router as project_router,
+    experience_projects_router,
+)
 
 api_router = APIRouter()
 
@@ -41,4 +45,16 @@ api_router.include_router(
     experiences_router,
     prefix="/experiences",
     tags=["Experience"],
+)
+
+api_router.include_router(
+    project_router,
+    prefix="/projects",
+    tags=["Projects"],
+)
+
+api_router.include_router(
+    experience_projects_router,
+    prefix="/experiences",
+    tags=["Experience Projects"],
 )

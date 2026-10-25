@@ -48,9 +48,9 @@ def register_exception_handlers(app: FastAPI) -> None:
         """
         validation_errors = exc.errors()
         logger.warning(
-            "Request validation failed.",
-            len(validation_errors)
-            )
+            "Request validation failed. Error count: %d",
+            len(validation_errors),
+        )
         errors = [
             {
             "loc": error["loc"],

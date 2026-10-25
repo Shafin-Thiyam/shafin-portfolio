@@ -35,6 +35,12 @@ from app.schemas.experience import (
     ExperienceUpdate
 )
 
+from app.schemas.project import (
+    ProjectCreate,
+    ProjectResponse,
+    ProjectUpdate,
+)
+
 __all__ = (
     "ApiResponse",
     "BaseSchema",
@@ -59,4 +65,8 @@ __all__ = (
     "ExperienceResponse",
     "ExperienceSkillsUpdate",
     "ExperienceUpdate",
+
+    "ProjectCreate",
+    "ProjectResponse",
+    "ProjectUpdate",
 )

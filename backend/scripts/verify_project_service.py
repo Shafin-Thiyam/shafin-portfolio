@@ -5,8 +5,14 @@ from datetime import date
 from app.db.session import SessionLocal
 from app.models import Experience, Project
 from app.repositories import ExperienceRepository
-from app.schemas import ExperienceCreate
+from app.schemas import (
+    ExperienceCreate,
+    ProjectCreate,
+    ProjectUpdate,
+)
 from app.services.project import ProjectService
+
+
 
 
 INVALID_PROJECT_ID = -999999
@@ -130,7 +136,7 @@ def main() -> None:
         # =====================================================
 
         project_1 = service.create(
-            Project(
+            ProjectCreate(
                 experience_id=experience_1.id,
                 title="Service Test Project A",
                 description="First service verification project.",
@@ -160,7 +166,7 @@ def main() -> None:
         print("PASS: create()")
 
         project_2 = service.create(
-            Project(
+            ProjectCreate(
                 experience_id=experience_1.id,
                 title="Service Test Project B",
                 description="Second service verification project.",
@@ -177,7 +183,7 @@ def main() -> None:
         project_ids.append(project_2.id)
 
         project_3 = service.create(
-            Project(
+            ProjectCreate(
                 experience_id=experience_2.id,
                 title="Service Test Project C",
                 description="Third service verification project.",
@@ -299,7 +305,7 @@ def main() -> None:
         assert_raises(
             ValueError,
             lambda: service.create(
-                Project(
+                ProjectCreate(
                     experience_id=INVALID_EXPERIENCE_ID,
                     title="Invalid Parent Project",
                     description=None,
@@ -321,7 +327,7 @@ def main() -> None:
         # 6. Update
         # =====================================================
 
-        project_update = Project(
+        project_update = ProjectUpdate(
             experience_id=experience_1.id,
             title="Updated Service Test Project A",
             description="Updated project description.",
@@ -370,8 +376,8 @@ def main() -> None:
 
         print("PASS: missing project update validation")
 
-        invalid_parent_update = Project(
-            experience_id=INVALID_EXPERIENCE_ID,
+        invalid_parent_update = ProjectUpdate(
+            experience_id=999999999,
             title="Invalid Parent Update",
             description=None,
             role=None,

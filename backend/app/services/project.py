@@ -6,6 +6,7 @@ from app.repositories import (
     ExperienceRepository,
     ProjectRepository,
 )
+from app.schemas import ProjectCreate, ProjectUpdate
 
 
 PROJECT_NOT_FOUND_MESSAGE = "Project not found."
@@ -69,7 +70,7 @@ class ProjectService:
 
     def create(
         self,
-        project_data: Project,
+        project_data: ProjectCreate,
     ) -> Project:
         """
         Create a project after validating its experience.
@@ -88,12 +89,14 @@ class ProjectService:
         if experience is None:
             raise ValueError(EXPERIENCE_NOT_FOUND_MESSAGE)
 
-        return self.repository.create(project_data)
+        project = Project(**project_data.model_dump())
+
+        return self.repository.create(project)
 
     def update(
         self,
         project_id: int,
-        project_data: Project,
+        project_data: ProjectUpdate,
     ) -> Project:
         """
         Update an existing project.
@@ -117,16 +120,11 @@ class ProjectService:
         if experience is None:
             raise ValueError(EXPERIENCE_NOT_FOUND_MESSAGE)
 
-        existing_project.experience_id = project_data.experience_id
-        existing_project.title = project_data.title
-        existing_project.description = project_data.description
-        existing_project.role = project_data.role
-        existing_project.technologies = project_data.technologies
-        existing_project.project_url = project_data.project_url
-        existing_project.repository_url = project_data.repository_url
-        existing_project.start_date = project_data.start_date
-        existing_project.end_date = project_data.end_date
-        existing_project.display_order = project_data.display_order
+        updated_fields = project_data.model_dump()
+        #updated_fields = project_data.model_dump(exclude_unset=True)
+
+        for field, value in updated_fields.items():
+            setattr(existing_project, field, value)
 
         return self.repository.update(
             existing_project

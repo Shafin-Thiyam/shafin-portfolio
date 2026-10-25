@@ -32,16 +32,21 @@ router = APIRouter()
     summary="Get experiences with optional filters",
 )
 def get_experiences(
-    company: Annotated[str | None, Query()] = None,
-    employment_type: Annotated[str | None, Query()] = None,
-    location_type: Annotated[str | None, Query()] = None,
+    company: Annotated[
+        str | None,
+        Query(description="Filter by company name (case-insensitive partial match).")] = None,
+    employment_type: Annotated[str | None, Query(description="Filter by employment_type(Full-time, Contractual, Part-time).")] = None,
+    location_type: Annotated[str | None, Query(description="Filter by location_type(On-site, Remote, Hybrid).")] = None,
     db: Session = Depends(get_db),
 ) -> ExperienceListResponse:
-    """Retrieve experiences, optionally filtered by one criterion.
+    """
+    Retrieve experiences, optionally filtered by company,
+    employment type, and location type.
 
-    Filters are alternatives, not combined. If multiple filters are supplied,
-    the first non-None filter in this order is applied:
-    company, employment_type, location_type.
+    When multiple filters are supplied, they are combined
+    using AND logic. Company matching is case-insensitive
+    partial matching; employment type and location type
+    use case-insensitive exact matching.
     """
 
     service = ExperienceService(db)
