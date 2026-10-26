@@ -1,4 +1,6 @@
+import ProjectsSection from './components/projects/ProjectsSection'
 import './App.css'
+
 
 function App() {
   return (
@@ -160,9 +162,8 @@ function App() {
               From cloud platforms to AI-powered applications, explore the
               work behind the ideas.
             </p>
-            <p className="section-hint">
-              Project cards will be populated from your backend API.
-            </p>
+            <ProjectsSection />
+
           </div>
         </section>
 

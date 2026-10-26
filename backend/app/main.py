@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1.router import api_router
 from app.core.exceptions import register_exception_handlers
@@ -48,6 +49,15 @@ def create_app() -> FastAPI:
         debug=settings.app_debug,
         lifespan=lifespan,
         )
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[
+            "http://localhost:5173",
+        ],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
     
     register_exception_handlers(app)
     
