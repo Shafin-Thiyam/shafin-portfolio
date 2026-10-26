@@ -1,0 +1,166 @@
+:root {
+  /* Brand colours */
+  --color-primary: #006d77;
+  --color-primary-dark: #004f57;
+  --color-accent: #12a6a6;
+
+  /* Backgrounds */
+  --color-background: #f7fbfa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #eaf5f4;
+
+  /* Text */
+  --color-text: #102a43;
+  --color-text-muted: #526777;
+  --color-text-light: #718494;
+
+  /* Borders and effects */
+  --color-border: #dce9e7;
+  --color-shadow: rgba(16, 42, 67, 0.08);
+
+  /* Typography */
+  --font-body: "Segoe UI", Roboto, Arial, sans-serif;
+  --font-heading: "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Layout */
+  --container-width: 1200px;
+  --page-gutter: 32px;
+  --section-spacing: 96px;
+
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-background);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-optical-sizing: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+body,
+button,
+input,
+textarea {
+  font-family: var(--font-body);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  letter-spacing: -0.045em;
+}
+
+h2 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  letter-spacing: -0.035em;
+}
+
+p {
+  color: var(--color-text-muted);
+}
+
+::selection {
+  color: var(--color-surface);
+  background: var(--color-primary);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.container {
+  width: min(
+    var(--container-width),
+    calc(100% - var(--page-gutter) * 2)
+  );
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--section-spacing);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --page-gutter: 20px;
+    --section-spacing: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
