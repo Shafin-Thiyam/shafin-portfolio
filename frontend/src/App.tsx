@@ -1,4 +1,5 @@
 import ProjectsSection from './components/projects/ProjectsSection'
+import ExperienceSection from './components/experience/ExperienceSection'
 import './App.css'
 
 
@@ -153,6 +154,22 @@ function App() {
             </p>
           </div>
         </section>
+
+        <section className="section experience-section" id="experience">
+          <div className="container">
+            <p className="eyebrow">PROFESSIONAL JOURNEY</p>
+            <h2>Experience & Growth</h2>
+            <p>
+              My professional journey across software engineering, cloud solutions,
+              enterprise integration and AI initiatives.
+            </p>
+
+            <ExperienceSection />
+          </div>
+        </section>
+
+
+
 
         <section className="section projects-section" id="projects">
           <div className="container">
