@@ -1,5 +1,8 @@
+import Navigation from './components/navigation/Navigation'
+import AboutSection from './components/about/AboutSection'
 import ProjectsSection from './components/projects/ProjectsSection'
 import ExperienceSection from './components/experience/ExperienceSection'
+import SkillsSection from './components/skills/SkillsSection'
 import './App.css'
 
 
@@ -15,13 +18,7 @@ function App() {
             />
           </a>
 
-          <nav className="main-nav" aria-label="Main navigation">
-            <a className="nav-link active" href="#home">Home</a>
-            <a className="nav-link" href="#about">About</a>
-            <a className="nav-link" href="#experience">Experience</a>
-            <a className="nav-link" href="#projects">Projects</a>
-            <a className="nav-link" href="#contact">Contact</a>
-          </nav>
+          <Navigation />
 
           <a className="header-cta" href="#contact">
             Let's Connect <span aria-hidden="true">↗</span>
@@ -123,37 +120,9 @@ function App() {
           </div>
         </section>
 
-        <section className="section intro-section" id="about">
-          <div className="container">
-            <p className="eyebrow">A LITTLE ABOUT ME</p>
-            <h2>
-              Engineering with purpose.
-              <br />
-              <span className="text-accent">
-                Learning without limits.
-              </span>
-            </h2>
-            <p className="intro-description">
-              I enjoy solving real-world engineering problems, exploring
-              emerging technologies, and building maintainable applications
-              that turn ideas into useful solutions.
-            </p>
-          </div>
-        </section>
+        <AboutSection />
 
-        <section className="section experience-section" id="experience">
-          <div className="container">
-            <p className="eyebrow">PROFESSIONAL JOURNEY</p>
-            <h2>Experience & Growth</h2>
-            <p>
-              13+ years across software engineering, cloud solutions,
-              enterprise integration and AI initiatives.
-            </p>
-            <p className="section-hint">
-              We'll connect this section to your portfolio API in a later step.
-            </p>
-          </div>
-        </section>
+        <SkillsSection />
 
         <section className="section experience-section" id="experience">
           <div className="container">
