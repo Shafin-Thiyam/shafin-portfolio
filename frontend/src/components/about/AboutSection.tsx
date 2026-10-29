@@ -1,48 +1,17 @@
-import { useEffect, useState } from 'react'
 import type { Profile } from '../../types/profile'
-import { getProfile } from '../../services/profile'
 
-function AboutSection() {
-  const [profile, setProfile] = useState<Profile | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+interface AboutSectionProps {
+  profile: Profile | null
+  isLoading: boolean
+  error: string | null
+}
 
-  useEffect(() => {
-    const controller = new AbortController()
-
-    async function loadProfile() {
-      try {
-        setIsLoading(true)
-        setError(null)
-
-        const profileData = await getProfile(controller.signal)
-        setProfile(profileData)
-      } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') {
-          return
-        }
-
-        setError(
-          err instanceof Error
-            ? err.message
-            : 'Unable to load profile information.',
-        )
-      } finally {
-        if (!controller.signal.aborted) {
-          setIsLoading(false)
-        }
-      }
-    }
-
-    void loadProfile()
-
-    return () => {
-      controller.abort()
-    }
-  }, [])
-
+function AboutSection({
+  profile,
+  isLoading,
+  error,
+}: AboutSectionProps) {
   return (
-    <>
     <section className="section intro-section" id="about">
       <div className="container">
         <p className="eyebrow">A LITTLE ABOUT ME</p>
@@ -79,7 +48,6 @@ function AboutSection() {
         )}
       </div>
     </section>
-    </>
   )
 }
 

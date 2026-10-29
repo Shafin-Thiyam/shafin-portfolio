@@ -1,10 +1,5 @@
-import type { Profile } from '../types/profile'
+import type { ApiResponse, Profile } from '../types/profile'
 
-interface ApiResponse<T> {
-  success: boolean
-  message: string
-  data: T | null
-}
 
 const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'

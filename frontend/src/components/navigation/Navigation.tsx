@@ -11,6 +11,7 @@ const navigationItems = [
 
 function Navigation() {
   const [activeSection, setActiveSection] = useState('home')
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     const sectionElements = navigationItems
@@ -28,13 +29,10 @@ function Navigation() {
 
       animationFrame = requestAnimationFrame(() => {
         const activationPoint = window.innerHeight * 0.3
-
         let currentSection = sectionElements[0]
 
         for (const section of sectionElements) {
-          const sectionTop = section.getBoundingClientRect().top
-
-          if (sectionTop <= activationPoint) {
+          if (section.getBoundingClientRect().top <= activationPoint) {
             currentSection = section
           } else {
             break
@@ -49,12 +47,9 @@ function Navigation() {
       passive: true,
     })
     window.addEventListener('resize', updateActiveSection)
-
-    // Set the correct active link when the page first loads.
-    updateActiveSection()
-
-    // Recheck after a navigation link changes the URL fragment.
     window.addEventListener('hashchange', updateActiveSection)
+
+    updateActiveSection()
 
     return () => {
       cancelAnimationFrame(animationFrame)
@@ -64,24 +59,79 @@ function Navigation() {
     }
   }, [])
 
-  return (
-    <nav className="main-nav" aria-label="Main navigation">
-      {navigationItems.map((item) => {
-        const sectionId = item.href.slice(1)
-        const isActive = activeSection === sectionId
+  useEffect(() => {
+    // Close the mobile menu when returning to desktop width.
+    const handleResize = () => {
+      if (window.innerWidth > 760) {
+        setIsMenuOpen(false)
+      }
+    }
 
-        return (
-          <a
-            key={item.href}
-            className={`nav-link${isActive ? ' active' : ''}`}
-            href={item.href}
-            aria-current={isActive ? 'location' : undefined}
-          >
-            {item.label}
-          </a>
-        )
-      })}
-    </nav>
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      return
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isMenuOpen])
+
+  const closeMenu = () => setIsMenuOpen(false)
+
+  return (
+    <>
+      <button
+        type="button"
+        className="menu-toggle"
+        aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-expanded={isMenuOpen}
+        aria-controls="primary-navigation"
+        onClick={() => setIsMenuOpen((open) => !open)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <nav
+        id="primary-navigation"
+        className={`main-nav${isMenuOpen ? ' is-open' : ''}`}
+        aria-label="Main navigation"
+      >
+        {navigationItems.map((item) => {
+          const sectionId = item.href.slice(1)
+          const isActive = activeSection === sectionId
+
+          return (
+            <a
+              key={item.href}
+              className={`nav-link${isActive ? ' active' : ''}`}
+              href={item.href}
+              aria-current={isActive ? 'location' : undefined}
+              onClick={closeMenu}
+            >
+              {item.label}
+            </a>
+          )
+        })}
+      </nav>
+    </>
   )
 }
 
