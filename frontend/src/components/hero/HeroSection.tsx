@@ -43,15 +43,17 @@ function HeroSection({
           )}
 
           {!isLoading && !error && profile && (
-            <p className="hero-profile-title">
-              {profile.full_name} · {profile.title}
-            </p>
-          )}
+            <>
+              <p className="hero-profile-title">
+                {profile.full_name} <span aria-hidden="true">·</span>{' '}Python Cloud Engineer
+              </p>
 
-          {!isLoading && !error && profile && (
-            <p className="hero-description">
-              {profile.summary}
-            </p>
+              <p className="hero-description">
+                I build practical software solutions across Python,
+                cloud platforms, enterprise integration, and Generative AI,
+                with a focus on solving complex engineering problems.
+              </p>
+            </>
           )}
 
           <div className="hero-actions">

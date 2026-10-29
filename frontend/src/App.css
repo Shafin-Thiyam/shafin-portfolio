@@ -505,6 +505,7 @@
 }
 
 @media (max-width: 900px) {
+  /* Header navigation */
   .header-content {
     position: relative;
     min-height: 76px;
@@ -564,7 +565,20 @@
     display: none;
   }
 
-  /* Keep the rest of your existing mobile rules below this point. */
+  /* Stack the hero content before the columns become cramped. */
+  .hero-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .hero-copy {
+    max-width: 100%;
+  }
+
+  .hero-visual {
+    width: 100%;
+    min-height: 340px;
+  }
 }
 
 @media (max-width: 420px) {
@@ -815,16 +829,6 @@
   line-height: 1.8;
 }
 
-@media (max-width: 760px) {
-  .experience-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .experience-card {
-    padding: 22px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .experience-card {
     transition: none;
@@ -853,10 +857,8 @@
   font-size: 0.9rem;
 }
 
-@media (max-width: 760px) {
-  .about-content {
-    max-width: 100%;
-  }
+.about-content .intro-description {
+  line-height: 1.85;
 }
 
 .skills-description {
@@ -926,7 +928,37 @@
   transition: width 300ms ease;
 }
 
+/* Consolidated mobile layout rules */
 @media (max-width: 760px) {
+  .hero-section {
+    padding-block: 56px 48px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.3rem, 8vw, 3.4rem);
+    line-height: 1.12;
+  }
+
+  .hero-description {
+    max-width: 100%;
+  }
+
+  .hero-visual {
+    min-height: 320px;
+  }
+
+  .experience-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .experience-card {
+    padding: 22px;
+  }
+
+  .about-content {
+    max-width: 100%;
+  }
+
   .skills-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 18px;
